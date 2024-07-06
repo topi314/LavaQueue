@@ -1,9 +1,8 @@
 import java.io.ByteArrayOutputStream
 
 plugins {
-    `maven-publish`
-    id("org.jetbrains.kotlin.jvm") version "1.9.0" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0" apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 val (gitVersion, release) = versionFromGit()

@@ -16,14 +16,8 @@ lavalinkPlugin {
     configurePublishing = false
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
 kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_17
-    }
+   jvmToolchain(17)
 }
 
 dependencies {
