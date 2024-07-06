@@ -7,16 +7,9 @@ base {
     archivesName = "lavaqueue-protocol"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "17"
-        }
-    }
+    jvmToolchain(17)
+    jvm()
     js(IR) {
         nodejs()
     }

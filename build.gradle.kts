@@ -1,9 +1,8 @@
 import java.io.ByteArrayOutputStream
 
 plugins {
-    `maven-publish`
-    id("org.jetbrains.kotlin.jvm") version "1.9.0" apply false
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0" apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 val (gitVersion, release) = versionFromGit()
@@ -17,23 +16,22 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven("https://maven.lavalink.dev/releases")
-        maven("https://maven.lavalink.dev/snapshots")
+        maven("https://maven.arbjerg.dev/releases")
+        maven("https://maven.arbjerg.dev/snapshots")
         maven("https://jitpack.io")
         jcenter()
     }
 }
 
 val isMavenDefined = findProperty("MAVEN_USERNAME") != null && findProperty("MAVEN_PASSWORD") != null
-val isLavalinkMavenDefined = findProperty("LAVALINK_MAVEN_USERNAME") != null && findProperty("LAVALINK_MAVEN_PASSWORD") != null
 subprojects {
     apply<MavenPublishPlugin>()
 
     configure<PublishingExtension> {
-        if (isMavenDefined) {
+        if (findProperty("MAVEN_PASSWORD") != null && findProperty("MAVEN_USERNAME") != null) {
             repositories {
-                val snapshots = "https://maven.topi.wtf/snapshots"
-                val releases = "https://maven.topi.wtf/releases"
+                val snapshots = "https://maven.lavalink.dev/snapshots"
+                val releases = "https://maven.lavalink.dev/releases"
 
                 maven(if (release) releases else snapshots) {
                     credentials {
@@ -42,19 +40,8 @@ subprojects {
                     }
                 }
             }
-        }
-        if (isLavalinkMavenDefined && name == "main") {
-            repositories {
-                val snapshots = "https://maven.lavalink.dev/snapshots"
-                val releases = "https://maven.lavalink.dev/releases"
-
-                maven(if (release) releases else snapshots) {
-                    credentials {
-                        password = findProperty("LAVALINK_MAVEN_PASSWORD") as String?
-                        username = findProperty("LAVALINK_MAVEN_USERNAME") as String?
-                    }
-                }
-            }
+        } else {
+            logger.lifecycle("Not publishing to maven.lavalink.dev because credentials are not set")
         }
     }
 }
@@ -67,7 +54,7 @@ fun versionFromGit(): Pair<String, Boolean> {
         commandLine = listOf("git", "describe", "--exact-match", "--tags")
     }
     if (result.exitValue == 0) {
-        return Pair(versionStr.toString().trim(), true)
+        return Pair(versionStr.toString().trim(), false)
     }
 
     versionStr = ByteArrayOutputStream()
@@ -80,5 +67,5 @@ fun versionFromGit(): Pair<String, Boolean> {
         throw GradleException("Failed to get git version")
     }
 
-    return Pair(versionStr.toString().trim(), false)
+    return Pair(versionStr.toString().trim(), true)
 }

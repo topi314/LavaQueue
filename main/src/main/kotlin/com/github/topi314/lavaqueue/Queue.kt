@@ -15,12 +15,12 @@ class Queue(
 ) : AudioEventAdapter() {
 
     var type = Queue.Type.NORMAL
-    val tracks = TrackQueue()
+    val queue = TrackQueue()
     val history = TrackQueue()
 
     fun next(): AudioTrack? {
-        if (tracks.isNotEmpty()) {
-            val track = tracks.next()
+        if (queue.isNotEmpty()) {
+            val track = queue.next()
             player.play(track!!)
             return track
         }
@@ -36,17 +36,8 @@ class Queue(
         return null
     }
 
-    fun playIfNotPlaying() {
-        if (player.isPlaying) {
-            return
-        }
-        val track = next() ?: return
-        player.play(track)
-    }
-
     override fun onTrackEnd(unused: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         history.add(track.makeClone())
-
         if (endReason.mayStartNext) {
             val nextTrack = when (type) {
                 Queue.Type.NORMAL -> next()
@@ -57,7 +48,7 @@ class Queue(
                 }
 
                 Queue.Type.REPEAT_QUEUE -> {
-                    tracks.add(track.makeClone())
+                    queue.add(track.makeClone())
                     next()
                 }
             }
