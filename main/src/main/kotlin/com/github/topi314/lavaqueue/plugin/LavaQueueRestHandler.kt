@@ -32,8 +32,7 @@ class LavaQueueRestHandler(
     ) {
         val queue = lavaQueuePlugin.getQueue(sessionId, playerId)
         queue.type = queue.type
-        queue.tracks.set(body.tracks.toAudioTracks(playerManager))
-        queue.playIfNotPlaying()
+        queue.queue.set(body.tracks.toAudioTracks(playerManager))
     }
 
     @PatchMapping("/v4/sessions/{sessionId}/players/{playerId}/queue")
@@ -50,12 +49,10 @@ class LavaQueueRestHandler(
 
         body.tracks.ifPresent {
             if (index != null) {
-                queue.tracks.addAll(index, it.toAudioTracks(playerManager))
-                queue.playIfNotPlaying()
+                queue.queue.addAll(index, it.toAudioTracks(playerManager))
                 return
             }
-            queue.tracks.addAll(it.toAudioTracks(playerManager))
-            queue.playIfNotPlaying()
+            queue.queue.addAll(it.toAudioTracks(playerManager))
         }
     }
 
@@ -63,16 +60,14 @@ class LavaQueueRestHandler(
     fun putQueueTracks(
         @PathVariable sessionId: String,
         @PathVariable playerId: Long,
-        @RequestBody body: EncodedTracks
+        @RequestBody tracks: EncodedTracks
     ) {
-        val queue = lavaQueuePlugin.getQueue(sessionId, playerId)
-        queue.tracks.set(body.toAudioTracks(playerManager).toMutableList())
-        queue.playIfNotPlaying()
+        lavaQueuePlugin.getQueue(sessionId, playerId).queue.set(tracks.toAudioTracks(playerManager).toMutableList())
     }
 
     @DeleteMapping("/v4/sessions/{sessionId}/players/{playerId}/tracks/queue")
     fun deleteQueue(@PathVariable sessionId: String, @PathVariable playerId: Long) {
-        lavaQueuePlugin.getQueue(sessionId, playerId).tracks.clear()
+        lavaQueuePlugin.getQueue(sessionId, playerId).queue.clear()
     }
 
     @GetMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
@@ -81,7 +76,7 @@ class LavaQueueRestHandler(
         @PathVariable playerId: Long,
         @PathVariable index: Int
     ): Track? {
-        return lavaQueuePlugin.getQueue(sessionId, playerId).tracks.get(index)?.toTrack(playerManager, pluginInfoModifiers)
+        return lavaQueuePlugin.getQueue(sessionId, playerId).queue.get(index)?.toTrack(playerManager, pluginInfoModifiers)
     }
 
     @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
@@ -89,11 +84,9 @@ class LavaQueueRestHandler(
         @PathVariable sessionId: String,
         @PathVariable playerId: Long,
         @PathVariable index: Int,
-        @RequestBody body: EncodedTrack
+        @RequestBody track: EncodedTrack
     ) {
-        val queue = lavaQueuePlugin.getQueue(sessionId, playerId)
-        queue.tracks.set(index, body.toAudioTrack(playerManager))
-        queue.playIfNotPlaying()
+        lavaQueuePlugin.getQueue(sessionId, playerId).queue.set(index, track.toAudioTrack(playerManager))
     }
 
     @PatchMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
@@ -102,11 +95,9 @@ class LavaQueueRestHandler(
         @PathVariable sessionId: String,
         @PathVariable playerId: Long,
         @PathVariable index: Int,
-        @RequestBody body: EncodedTrack
+        @RequestBody track: EncodedTrack
     ) {
-        val queue = lavaQueuePlugin.getQueue(sessionId, playerId)
-        queue.tracks.set(index, body.toAudioTrack(playerManager))
-        queue.playIfNotPlaying()
+        lavaQueuePlugin.getQueue(sessionId, playerId).queue.set(index, track.toAudioTrack(playerManager))
     }
 
     @DeleteMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/{index}")
@@ -117,23 +108,22 @@ class LavaQueueRestHandler(
         @RequestParam amount: Int?
     ) {
         if (amount == null) {
-            lavaQueuePlugin.getQueue(sessionId, playerId).tracks.removeAt(index)
+            lavaQueuePlugin.getQueue(sessionId, playerId).queue.removeAt(index)
             return
         }
-        lavaQueuePlugin.getQueue(sessionId, playerId).tracks.removeAt(index, amount)
+        lavaQueuePlugin.getQueue(sessionId, playerId).queue.removeAt(index, amount)
     }
 
     @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/{index}/move")
-    fun moveQueueIndex(
+    fun getQueueIndexMove(
         @PathVariable sessionId: String,
         @PathVariable playerId: Long,
         @PathVariable index: Int,
         @RequestParam position: Int
     ) {
         val queue = lavaQueuePlugin.getQueue(sessionId, playerId)
-        val track = queue.tracks.get(index) ?: return
-        queue.tracks.add(position, track)
-        queue.playIfNotPlaying()
+        val track = queue.queue.get(index) ?: return
+        queue.queue.add(position, track)
     }
 
     @GetMapping("/v4/sessions/{sessionId}/players/{playerId}/history")
