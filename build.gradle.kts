@@ -55,7 +55,7 @@ fun versionFromGit(): Pair<String, Boolean> {
         commandLine = listOf("git", "describe", "--exact-match", "--tags")
     }
     if (result.exitValue == 0) {
-        return Pair(versionStr.toString().trim(), true)
+        return Pair(versionStr.toString().trim(), false)
     }
 
     versionStr = ByteArrayOutputStream()
@@ -68,5 +68,5 @@ fun versionFromGit(): Pair<String, Boolean> {
         throw GradleException("Failed to get git version")
     }
 
-    return Pair(versionStr.toString().trim(), false)
+    return Pair(versionStr.toString().trim(), true)
 }
