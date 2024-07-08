@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     kotlin("jvm")
     alias(libs.plugins.lavalink)
@@ -17,7 +15,7 @@ lavalinkPlugin {
 }
 
 kotlin {
-   jvmToolchain(17)
+    jvmToolchain(17)
 }
 
 dependencies {

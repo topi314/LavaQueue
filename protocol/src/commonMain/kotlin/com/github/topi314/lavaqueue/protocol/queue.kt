@@ -4,12 +4,14 @@ import dev.arbjerg.lavalink.protocol.v4.Omissible
 import dev.arbjerg.lavalink.protocol.v4.Track
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 import kotlin.jvm.JvmInline
 
 @Serializable
 data class Queue(
     val type: Type,
     val tracks: List<Track>,
+    val userData: JsonObject,
 ) {
     @Serializable
     enum class Type {
@@ -25,21 +27,18 @@ data class Queue(
 }
 
 @Serializable
-data class QueueCreate(
-    val type: Queue.Type,
-    val tracks: EncodedTracks,
+data class QueueTrack(
+    val encoded: String,
+    val userData: Omissible<JsonObject> = Omissible.Omitted(),
 )
 
 @Serializable
 data class QueueUpdate(
-    val type: Omissible<Queue.Type>,
-    val tracks: Omissible<EncodedTracks>,
+    val type: Omissible<Queue.Type> = Omissible.Omitted(),
+    val tracks: Omissible<QueueTracks> = Omissible.Omitted(),
+    val userData: Omissible<JsonObject> = Omissible.Omitted(),
 )
 
 @Serializable
 @JvmInline
-value class EncodedTrack(val track: String)
-
-@Serializable
-@JvmInline
-value class EncodedTracks(val tracks: List<EncodedTrack>)
+value class QueueTracks(val tracks: List<QueueTrack>)

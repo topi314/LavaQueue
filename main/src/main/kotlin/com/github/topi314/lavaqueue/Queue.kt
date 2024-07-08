@@ -8,19 +8,29 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import dev.arbjerg.lavalink.api.IPlayer
 import dev.arbjerg.lavalink.api.ISocketContext
+import kotlinx.serialization.json.JsonObject
 
 class Queue(
     private val context: ISocketContext,
     private val player: IPlayer
 ) : AudioEventAdapter() {
 
+    init {
+        player.audioPlayer.addListener(this)
+    }
+
     var type = Queue.Type.NORMAL
-    val queue = TrackQueue()
+    val tracks = TrackQueue()
     val history = TrackQueue()
+    var userData = JsonObject(emptyMap())
 
     fun next(): AudioTrack? {
-        if (queue.isNotEmpty()) {
-            val track = queue.next()
+        if (player.isPlaying) {
+            return null
+        }
+
+        if (tracks.isNotEmpty()) {
+            val track = tracks.removeNext()
             player.play(track!!)
             return track
         }
@@ -48,7 +58,7 @@ class Queue(
                 }
 
                 Queue.Type.REPEAT_QUEUE -> {
-                    queue.add(track.makeClone())
+                    tracks.add(track.makeClone())
                     next()
                 }
             }
