@@ -32,9 +32,11 @@ The plugin provides a REST API to add, remove and update tracks in the queue.
 
 ### Queue Types
 
-* `normal`
-* `repeat`
-* `track`
+| Type         | Description                                            |
+|--------------|--------------------------------------------------------|
+| normal       | Tracks will be played in the first in first out order. |
+| repeat_track | A singular track will be repeatedly played.            |
+| repeat_queue | The queue will and restart once it has ended.          |
 
 ---
 
