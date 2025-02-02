@@ -28,20 +28,16 @@ class LavaQueueRestHandler(
     private val lavaQueuePlugin: LavaQueuePlugin
 ) {
 
-    @GetMapping("/v4/sessions/{sessionId}/players/{playerId}/queue")
-    fun getQueue(@PathVariable sessionId: String, @PathVariable playerId: Long): Queue {
-        return lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).toQueue(playerManager, pluginInfoModifiers)
+    @GetMapping("/v4/sessions/{sessionId}/players/{guildId}/queue")
+    fun getQueue(@PathVariable sessionId: String, @PathVariable guildId: Long): Queue {
+        return lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).toQueue(playerManager, pluginInfoModifiers)
     }
 
-    @PatchMapping("/v4/sessions/{sessionId}/players/{playerId}/queue")
-    fun patchQueue(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @RequestBody body: QueueUpdate,
-    ): Track {
-        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId)
-        body.type.ifPresent {
-            queue.type = it
+    @PatchMapping("/v4/sessions/{sessionId}/players/{guildId}/queue")
+    fun patchQueue(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestBody body: QueueUpdate): Track {
+        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId)
+        body.mode.ifPresent {
+            queue.mode = it
         }
 
         var track: AudioTrack? = null
@@ -58,99 +54,69 @@ class LavaQueueRestHandler(
         return track!!.toTrack(playerManager, pluginInfoModifiers)
     }
 
-    @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/next")
-    fun postQueueNext(@PathVariable sessionId: String, @PathVariable playerId: Long): Track {
-        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).next() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No next track found")
+    @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/next")
+    fun postQueueNext(@PathVariable sessionId: String, @PathVariable guildId: Long): Track {
+        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).next() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No next track found")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
 
-    @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/previous")
-    fun postQueuePrevious(@PathVariable sessionId: String, @PathVariable playerId: Long): Track {
-        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).previous() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No previous track found")
+    @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/previous")
+    fun postQueuePrevious(@PathVariable sessionId: String, @PathVariable guildId: Long): Track {
+        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).previous() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No previous track found")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
 
-    @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks")
-    fun postQueueTracks(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @RequestBody tracks: QueueTracks
-    ): Track {
-        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId)
+    @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/tracks")
+    fun postQueueTracks(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestBody tracks: QueueTracks): Track {
+        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId)
         queue.tracks.addAll(tracks.toAudioTracks(playerManager))
         val track = queue.next() ?: throw ResponseStatusException(HttpStatus.NO_CONTENT, "")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
 
-    @PatchMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks")
-    @PutMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks")
-    fun putQueueTracks(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @RequestBody tracks: QueueTracks
-    ): Track {
-        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId)
+    @PutMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/tracks")
+    fun putQueueTracks(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestBody tracks: QueueTracks): Track {
+        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId)
         queue.tracks.set(tracks.toAudioTracks(playerManager))
         val track = queue.next() ?: throw ResponseStatusException(HttpStatus.NO_CONTENT, "")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
 
-    @DeleteMapping("/v4/sessions/{sessionId}/players/{playerId}/tracks/queue")
-    fun deleteQueue(@PathVariable sessionId: String, @PathVariable playerId: Long) {
-        lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).tracks.clear()
+    @DeleteMapping("/v4/sessions/{sessionId}/players/{guildId}/queue")
+    fun deleteQueue(@PathVariable sessionId: String, @PathVariable guildId: Long) {
+        lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).tracks.clear()
     }
 
-    @GetMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
-    fun getQueueIndex(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @PathVariable index: Int
-    ): Track? {
-        return lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).tracks.get(index)?.toTrack(playerManager, pluginInfoModifiers)
+    @GetMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/tracks/{index}")
+    fun getQueueIndex(@PathVariable sessionId: String, @PathVariable guildId: Long, @PathVariable index: Int): Track? {
+        return lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).tracks.get(index)?.toTrack(playerManager, pluginInfoModifiers)
     }
 
-    @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
-    @PatchMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
-    @PutMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/tracks/{index}")
-    fun putQueueIndex(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @PathVariable index: Int,
-        @RequestBody track: QueueTrack
-    ) {
-        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId)
+    @PutMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/tracks/{index}")
+    fun putQueueIndex(@PathVariable sessionId: String, @PathVariable guildId: Long, @PathVariable index: Int, @RequestBody track: QueueTrack) {
+        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId)
         queue.tracks.set(index, track.toAudioTrack(playerManager))
     }
 
-    @DeleteMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/{index}")
-    fun deleteQueueIndex(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @PathVariable index: Int,
-        @RequestParam amount: Int?
-    ) {
+    @DeleteMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/{index}")
+    fun deleteQueueIndex(@PathVariable sessionId: String, @PathVariable guildId: Long, @PathVariable index: Int, @RequestParam amount: Int?) {
         if (amount == null) {
-            lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).tracks.removeAt(index)
+            lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).tracks.removeAt(index)
             return
         }
-        lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).tracks.removeAt(index, amount)
+        lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).tracks.removeAt(index, amount)
     }
 
-    @PostMapping("/v4/sessions/{sessionId}/players/{playerId}/queue/{index}/move")
-    fun getQueueIndexMove(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @PathVariable index: Int,
-        @RequestParam position: Int
-    ) {
-        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId)
+    @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/{index}/move")
+    fun getQueueIndexMove(@PathVariable sessionId: String, @PathVariable guildId: Long, @PathVariable index: Int, @RequestParam position: Int) {
+        val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId)
         val track = queue.tracks.get(index) ?: return
         queue.tracks.add(position, track)
     }
 
-    @GetMapping("/v4/sessions/{sessionId}/players/{playerId}/history")
-    fun getHistory(@PathVariable sessionId: String, @PathVariable playerId: Long): Tracks {
-        return Tracks(lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).history.get().map {
+    @GetMapping("/v4/sessions/{sessionId}/players/{guildId}/history")
+    fun getHistory(@PathVariable sessionId: String, @PathVariable guildId: Long): Tracks {
+        return Tracks(lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).history.get().map {
             it.toTrack(
                 playerManager,
                 pluginInfoModifiers
@@ -158,13 +124,9 @@ class LavaQueueRestHandler(
         })
     }
 
-    @GetMapping("/v4/sessions/{sessionId}/players/{playerId}/history/{index}")
-    fun getHistoryIndex(
-        @PathVariable sessionId: String,
-        @PathVariable playerId: Long,
-        @PathVariable index: Int
-    ): Track? {
-        return lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), playerId).history.get(index)
+    @GetMapping("/v4/sessions/{sessionId}/players/{guildId}/history/{index}")
+    fun getHistoryIndex(@PathVariable sessionId: String, @PathVariable guildId: Long, @PathVariable index: Int): Track? {
+        return lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).history.get(index)
             ?.toTrack(playerManager, pluginInfoModifiers)
     }
 

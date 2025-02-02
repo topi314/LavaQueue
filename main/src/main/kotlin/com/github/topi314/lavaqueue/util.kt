@@ -18,7 +18,7 @@ fun Queue.toQueue(
     pluginInfoModifiers: List<AudioPluginInfoModifier>
 ): PQueue {
     return PQueue(
-        type,
+        mode,
         tracks.get().map { it.toTrack(audioPlayerManager, pluginInfoModifiers) },
         userData
     )

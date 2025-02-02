@@ -19,7 +19,7 @@ class Queue(
         player.audioPlayer.addListener(this)
     }
 
-    var type = Queue.Type.NORMAL
+    var mode = Queue.Mode.NORMAL
     val tracks = TrackQueue()
     val history = TrackQueue()
     var userData = JsonObject(emptyMap())
@@ -49,15 +49,15 @@ class Queue(
     override fun onTrackEnd(unused: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         history.add(track.makeClone())
         if (endReason.mayStartNext) {
-            val nextTrack = when (type) {
-                Queue.Type.NORMAL -> next()
-                Queue.Type.REPEAT_TRACK -> {
+            val nextTrack = when (mode) {
+                Queue.Mode.NORMAL -> next()
+                Queue.Mode.REPEAT_TRACK -> {
                     val nextTrack = track.makeClone()
                     player.play(nextTrack)
                     nextTrack
                 }
 
-                Queue.Type.REPEAT_QUEUE -> {
+                Queue.Mode.REPEAT_QUEUE -> {
                     tracks.add(track.makeClone())
                     next()
                 }

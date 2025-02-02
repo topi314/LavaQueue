@@ -16,8 +16,8 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven("https://maven.arbjerg.dev/releases")
-        maven("https://maven.arbjerg.dev/snapshots")
+        maven("https://maven.lavalink.dev/releases")
+        maven("https://maven.lavalink.dev/snapshots")
         maven("https://jitpack.io")
         jcenter()
     }

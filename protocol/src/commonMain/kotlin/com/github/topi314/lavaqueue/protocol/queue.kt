@@ -9,12 +9,12 @@ import kotlin.jvm.JvmInline
 
 @Serializable
 data class Queue(
-    val type: Type,
+    val mode: Mode,
     val tracks: List<Track>,
     val userData: JsonObject,
 ) {
     @Serializable
-    enum class Type {
+    enum class Mode {
         @SerialName("normal")
         NORMAL,
 
@@ -34,7 +34,7 @@ data class QueueTrack(
 
 @Serializable
 data class QueueUpdate(
-    val type: Omissible<Queue.Type> = Omissible.Omitted(),
+    val mode: Omissible<Queue.Mode> = Omissible.Omitted(),
     val tracks: Omissible<QueueTracks> = Omissible.Omitted(),
     val userData: Omissible<JsonObject> = Omissible.Omitted(),
 )
