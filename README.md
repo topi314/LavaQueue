@@ -1,14 +1,14 @@
 # LavaQueue
 
 > [!IMPORTANT]
-> This plugin is compatible with Lavalink version four and higher.
+> This plugin *requires* Lavalink `v4.0.5` or greater
 
 A plugin that adds a queue system for [Lavalink](https://github.com/lavalink-devs/Lavalink).
 
 ## Summary
 
 * [Installation](#installation)
-* [Lavalink Usage](#lavalink-usage)
+* [API](#api)
 
 ## Installation
 
@@ -25,9 +25,12 @@ lavalink:
 
 Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the short commit hash as the version.
 
-## Lavalink Usage
+## API
 
-### Queue Types:
+The plugin provides a REST API to add, remove and update tracks in the queue.
+
+
+### Queue Types
 
 * `normal`
 * `repeat`
