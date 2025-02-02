@@ -3,7 +3,7 @@
 > [!IMPORTANT]
 > This plugin *requires* Lavalink `v4.0.5` or greater
 
-A plugin that adds a queue system for [Lavalink](https://github.com/lavalink-devs/Lavalink).
+A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) with a REST API.
 
 ## Summary
 
@@ -36,7 +36,7 @@ The plugin provides a REST API to add, remove and update tracks in the queue.
 |--------------|--------------------------------------------------------|
 | normal       | Tracks will be played in the first in first out order. |
 | repeat_track | A singular track will be repeatedly played.            |
-| repeat_queue | The queue will and restart once it has ended.          |
+| repeat_queue | The queue will repeat once it has ended.               |
 
 ---
 
