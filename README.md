@@ -97,7 +97,7 @@ POST /sessions/{sessionId}/players/{guildId}/queue/next
 Gets the previously playing track. Plays the previous track if the player isn't playing. Response is a [track](https://lavalink.dev/api/rest#track) object.
 
 ```
-POST /sessions/{sessionId}/players/{guildId}/queue
+POST /sessions/{sessionId}/players/{guildId}/queue/previous
 ```
 
 ---
