@@ -54,7 +54,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 | Type                                                                          | Description                                               |
 |-------------------------------------------------------------------------------|-----------------------------------------------------------|
 | [track](https://lavalink.dev/api/rest.html#track)                             | A track object returned in API responses.                 |
-| [update_player_track](https://lavalink.dev/api/rest.html#update-player-track) | An update player track that can be sent in API requests.  | 
+| [update_player_track](https://lavalink.dev/api/rest.html#update-player-track) | An update player track that can be sent in API requests.  |
 
 ---
 
@@ -101,6 +101,9 @@ GET /sessions/{sessionId}/players/{guildId}/queue
 ---
 
 ### Update Queue
+
+> [!NOTE]
+> All fields are optional and only the fields you provide will be updated.
 
 Modifies the queue. Overrides the existing tracks if the tracks key is present.
 
