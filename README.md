@@ -9,6 +9,18 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
 
 * [Installation](#installation)
 * [API](#api)
+* [Get Queue](#get-queue)
+* [Update Queue](#update-queue)
+* [Next Queue Track](#next-queue-track)
+* [Previous Queue Track](#previous-queue-track)
+* [Add Queue Track](#add-queue-tracks)
+* [Update Queue Track](#update-queue-tracks)
+* [Get Queue Track](#get-queue-track)
+* [Add Queue Track](#add-queue-track)
+* [Delete Queue Track(s)](#delete-queue-track(s))
+* [Move Queue Track](#move-queue-track)
+* [Get Queue History](#get-queue-history)
+* [Get Queue History Track](#get-queue-history-track)
 
 ## Installation
 
@@ -69,6 +81,8 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 ```
 
 </details>
+
+---
 
 ## API
 
@@ -249,6 +263,9 @@ One new event has been added.
 
 ### QueueEndEvent
 
+<details>
+<summary>Example Payload</summary>
+
 ```json5
 {
   "op": "event",
@@ -256,3 +273,4 @@ One new event has been added.
   "guildId": "...",
 }
 ```
+</details>
