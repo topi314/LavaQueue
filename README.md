@@ -84,7 +84,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 ---
 
-### API
+## API
 
 The plugin provides a REST API to add, remove, and update tracks in the queue.
 
@@ -258,8 +258,6 @@ GET /sessions/{sessionId}/players/{guildId}/history/{index}
 ---
 
 ## Events
-
-One new event has been added.
 
 ### QueueEndEvent
 
