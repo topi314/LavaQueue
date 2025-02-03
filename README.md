@@ -25,11 +25,6 @@ lavalink:
 
 Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the short commit hash as the version.
 
-## API
-
-The plugin provides a REST API to add, remove and update tracks in the queue.
-
-
 ### Queue Types
 
 | Type         | Description                                            |
@@ -40,13 +35,24 @@ The plugin provides a REST API to add, remove and update tracks in the queue.
 
 ---
 
-### Get Queue
+### Common Types
 
-```
-GET /sessions/{sessionId}/players/{guildId}/queue
-```
+| Type                                                                          | Description                                               |
+|-------------------------------------------------------------------------------|-----------------------------------------------------------|
+| [track](https://lavalink.dev/api/rest.html#track)                             | A track object returned in API responses.                 |
+| [update_player_track](https://lavalink.dev/api/rest.html#update-player-track) | An update player tracks that can be sent in API requests. | 
 
-Response:
+---
+
+### Queue Object
+
+| Field  | Type   | Description                             |
+|--------|--------|-----------------------------------------|
+| type   | string | the type of queue.                      |
+| tracks | array  | An array of track objects in the queue. |
+
+<details>
+<summary>Example Payload</summary>
 
 ```json5
 {
@@ -62,6 +68,18 @@ Response:
 }
 ```
 
+</details>
+
+## API
+
+The plugin provides a REST API to add, remove and update tracks in the queue.
+
+### Get Queue
+
+```
+GET /sessions/{sessionId}/players/{guildId}/queue
+```
+
 ---
 
 ### Update Queue
@@ -72,7 +90,8 @@ Modifies the queue. Overrides the existing tracks if the tracks key is present.
 PATCH /sessions/{sessionId}/players/{playerId}/queue
 ```
 
-Request:
+<details>
+<summary>Example Payload</summary>
 
 ```json5
 {
@@ -84,12 +103,13 @@ Request:
   ]
 }
 ```
+</details>
 
 ---
 
 ### Next Queue Track
 
-Gets the next track in the queue. Plays the next track if the player isn't playing. Response is a [track](https://lavalink.dev/api/rest#track) object.
+Gets the next track in the queue. Plays the next track if the player isn't playing. Response is a track object.
 
 ```
 POST /sessions/{sessionId}/players/{guildId}/queue/next
@@ -99,7 +119,7 @@ POST /sessions/{sessionId}/players/{guildId}/queue/next
 
 ### Previous Queue Track
 
-Gets the previously playing track. Plays the previous track if the player isn't playing. Response is a [track](https://lavalink.dev/api/rest#track) object.
+Gets the previously playing track. Plays the previous track if the player isn't playing. Response is a track object.
 
 ```
 POST /sessions/{sessionId}/players/{guildId}/queue/previous
@@ -109,13 +129,14 @@ POST /sessions/{sessionId}/players/{guildId}/queue/previous
 
 ### Add Queue Tracks
 
-Adds tracks to the queue. Response is the next queue [track](https://lavalink.dev/api/rest#track).
+Adds tracks to the queue. Response is the next queue track.
 
 ```
 POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-Request:
+<details>
+<summary>Example Payload</summary>
 
 ```json5
 {
@@ -126,18 +147,20 @@ Request:
   ]
 }
 ```
+</details>
 
 ---
 
 ### Update Queue Tracks
 
-Overrides the existing tracks in the queue. Response is the next queue [track](https://lavalink.dev/api/rest#track).
+Overrides the existing tracks in the queue. Response is the next queue track.
 
 ```
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-Request:
+<details>
+<summary>Example Payload</summary>
 
 ```json5
 {
@@ -148,6 +171,7 @@ Request:
   ]
 }
 ```
+</details>
 
 ---
 
@@ -161,7 +185,7 @@ DELETE /sessions/{sessionId}/players/{guildId}/tracks/queue
 
 ### Get Queue Track
 
-Gets a track from the queue at the specified index. Response is a [track](https://lavalink.dev/api/rest#track) object.
+Gets a track from the queue at the specified index. Response is a track object.
 
 ```
 GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
@@ -171,7 +195,7 @@ GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 
 ### Add Queue Track
 
-Adds a track at the specified index. Reuqest body is an [update player track](https://lavalink.dev/api/rest#update-player-track).
+Adds a track at the specified index. Reuqest body is an update player track.
 
 ```
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
@@ -201,7 +225,7 @@ POST /sessions/{sessionId}/players/{guildId}/queue/{index}/move?position=0
 
 ### Get Queue History
 
-Gets the history of this queue. Response is an array of [track](https://lavalink.dev/api/rest#track) objects.
+Gets the history of this queue. Response is an array of track objects.
 
 ```
 GET /sessions/{sessionId}/players/{guildId}/history
@@ -211,7 +235,7 @@ GET /sessions/{sessionId}/players/{guildId}/history
 
 ### Get Queue History Track
 
-Gets a track from the history at the specified index. Response is a [track](https://lavalink.dev/api/rest#track) object.
+Gets a track from the history at the specified index. Response is a track object.
 
 ```
 GET /sessions/{sessionId}/players/{guildId}/history/{index}
