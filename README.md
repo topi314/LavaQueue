@@ -41,7 +41,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 | Type         | Description                                            |
 |--------------|--------------------------------------------------------|
-| normal       | Tracks will be played in the first in first out order. |
+| normal       | Tracks will be played in the order they are added.     |
 | repeat_track | A singular track will be repeatedly played.            |
 | repeat_queue | The queue will repeat once it has ended.               |
 
@@ -84,9 +84,9 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 ---
 
-## API
+### API
 
-The plugin provides a REST API to add, remove and update tracks in the queue.
+The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ### Get Queue
 
@@ -262,6 +262,8 @@ GET /sessions/{sessionId}/players/{guildId}/history/{index}
 One new event has been added.
 
 ### QueueEndEvent
+
+Fires when a queue has ended.
 
 <details>
 <summary>Example Payload</summary>
