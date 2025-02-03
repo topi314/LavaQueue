@@ -107,8 +107,6 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 The plugin provides a REST API to add, remove, and update tracks in the queue.
 
----
-
 ### Get Queue
 
 ```http
