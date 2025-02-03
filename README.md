@@ -107,6 +107,8 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 The plugin provides a REST API to add, remove, and update tracks in the queue.
 
+---
+
 ### Get Queue
 
 ```http
@@ -158,7 +160,7 @@ POST /sessions/{sessionId}/players/{guildId}/queue/previous
 
 ### Add Queue Tracks
 
-Adds tracks to the queue.
+Adds tracks to the queue. Request body is an [update queue](#common-types) payload.
 
 ```http
 POST /sessions/{sessionId}/players/{guildId}/queue/tracks
@@ -170,7 +172,7 @@ POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 
 ### Update Queue Tracks
 
-Overrides the existing tracks in the queue.
+Overrides the existing tracks in the queue. Request body is an [update queue](#common-types) payload.
 
 ```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
