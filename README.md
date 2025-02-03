@@ -84,7 +84,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 | Type                                              | Description                                                                                   |
 |---------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | [track](https://lavalink.dev/api/rest.html#track) | A track object returned in API responses.                                                     |
-| `update_queue`                                    | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects. |
+| update_queue                                    | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects.   |
 
 <details>
 <summary>Update Queue Payload</summary>
