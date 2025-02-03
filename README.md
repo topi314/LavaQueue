@@ -10,7 +10,7 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
 * [Installation](#installation)
 * [API](#api)
   * [Get Queue](#get-queue)
-  * [Update Queue](#update-queue)
+  * [Modify Queue](#modify-queue)
   * [Next Queue Track](#next-queue-track)
   * [Previous Queue Track](#previous-queue-track)
   * [Add Queue Track](#add-queue-tracks)
@@ -113,9 +113,11 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 GET /sessions/{sessionId}/players/{guildId}/queue
 ```
 
-Response: [Queue Object](#queue-object)
+**Response:** [Queue Object](#queue-object)
 
 ---
+
+### Modify Queue
 
 > [!NOTE]
 > All fields are optional and only the fields you provide will be updated.
@@ -126,55 +128,55 @@ Modifies the queue. Overrides the existing tracks if the tracks key is present. 
 PATCH /sessions/{sessionId}/players/{playerId}/queue
 ```
 
-Response: 
+**Response:** [Track Object](https://lavalink.dev/api/rest.html#track) or `204 NO CONTENT`
 
 ---
 
 ### Next Queue Track
 
-Gets the next track in the queue. Plays the next track if the player isn't playing. Response is a track object.
+Gets the next track in the queue. Plays the next track if the player isn't playing.
 
 ```http
 POST /sessions/{sessionId}/players/{guildId}/queue/next
 ```
 
-Response: 
+**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
 
 ---
 
 ### Previous Queue Track
 
-Gets the previously playing track. Plays the previous track if the player isn't playing. Response is a track object.
+Gets the previously playing track. Plays the previous track if the player isn't playing.
 
 ```http
 POST /sessions/{sessionId}/players/{guildId}/queue/previous
 ```
 
-Response: 
+**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
 
 ---
 
 ### Add Queue Tracks
 
-Adds tracks to the queue. Response is the next queue track.
+Adds tracks to the queue.
 
 ```http
 POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-Response: 
+**Response:** [Next Track](https://lavalink.dev/api/rest.html#track)
 
 ---
 
 ### Update Queue Tracks
 
-Overrides the existing tracks in the queue. Response is the next queue track.
+Overrides the existing tracks in the queue.
 
 ```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-Response: 
+**Response:** [Next Track](https://lavalink.dev/api/rest.html#track)
 
 ---
 
@@ -184,43 +186,43 @@ Response:
 DELETE /sessions/{sessionId}/players/{guildId}/tracks/queue
 ```
 
-Response: 
+**Response:** `204 NO CONTENT`
 
 ---
 
 ### Get Queue Track
 
-Gets a track from the queue at the specified index. Response is a track object.
+Gets a track from the queue at the specified index.
 
 ```http
 GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 ```
 
-Response: 
+**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
 
 ---
 
 ### Add Queue Track
 
-Adds a track at the specified index. Reuqest body is an update player track.
+Adds a track at the specified index. Reuqest body is an [update player track](https://lavalink.dev/api/rest#update-player-track).
 
 ```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 ```
 
-Response: 
+**Response:** `204 NO CONTENT`
 
 ---
 
 ### Delete Queue Track(s)
 
-Deletes a track from the queue. If amount is provided, the specified number of elements after the index will be removed.
+Remove a track from the queue. If amount is provided, the specified number of elements after the index will be removed.
 
 ```http
 DELETE /sessions/{sessionId}/players/{guildId}/queue/{index}?amount=0
 ```
 
-Response: 
+**Response:** `204 NO CONTENT`
 
 ---
 
@@ -232,31 +234,31 @@ Move a track to a different position. This does *not* remove the track at the or
 POST /sessions/{sessionId}/players/{guildId}/queue/{index}/move?position=0
 ```
 
-Response: 
+**Response:** `204 NO CONTENT`
 
 ---
 
 ### Get Queue History
 
-Gets the history of this queue. Response is an array of track objects.
+Gets the history of this queue.
 
 ```http
 GET /sessions/{sessionId}/players/{guildId}/history
 ```
 
-Response: 
+**Response:** Array of [track](https://lavalink.dev/api/rest.html#track) objects.
 
 ---
 
 ### Get Queue History Track
 
-Gets a track from the history at the specified index. Response is a track object.
+Gets a track from the history at the specified index.
 
 ```http
 GET /sessions/{sessionId}/players/{guildId}/history/{index}
 ```
 
-Response: 
+**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
 
 ---
 
