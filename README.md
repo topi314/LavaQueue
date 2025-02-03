@@ -9,18 +9,20 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
 
 * [Installation](#installation)
 * [API](#api)
-* [Get Queue](#get-queue)
-* [Update Queue](#update-queue)
-* [Next Queue Track](#next-queue-track)
-* [Previous Queue Track](#previous-queue-track)
-* [Add Queue Track](#add-queue-tracks)
-* [Update Queue Track](#update-queue-tracks)
-* [Get Queue Track](#get-queue-track)
-* [Add Queue Track](#add-queue-track)
-* [Delete Queue Track(s)](#delete-queue-track(s))
-* [Move Queue Track](#move-queue-track)
-* [Get Queue History](#get-queue-history)
-* [Get Queue History Track](#get-queue-history-track)
+  * [Get Queue](#get-queue)
+  * [Update Queue](#update-queue)
+  * [Next Queue Track](#next-queue-track)
+  * [Previous Queue Track](#previous-queue-track)
+  * [Add Queue Track](#add-queue-tracks)
+  * [Update Queue Track](#update-queue-tracks)
+  * [Get Queue Track](#get-queue-track)
+  * [Add Queue Track](#add-queue-track)
+  * [Delete Queue Track(s)](#delete-queue-track(s))
+  * [Move Queue Track](#move-queue-track)
+  * [Get Queue History](#get-queue-history)
+  * [Get Queue History Track](#get-queue-history-track)
+* [Events](#events)
+  * [QueueEndEvent](#queueendevent)
 
 ## Installation
 
@@ -39,7 +41,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 ---
 
-### Queue Types
+### Queue Modes
 
 | Type            | Description                                        |
 |-----------------|----------------------------------------------------|
@@ -49,21 +51,12 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 ---
 
-### Common Types
-
-| Type                                                                          | Description                                               |
-|-------------------------------------------------------------------------------|-----------------------------------------------------------|
-| [track](https://lavalink.dev/api/rest.html#track)                             | A track object returned in API responses.                 |
-| [update_player_track](https://lavalink.dev/api/rest.html#update-player-track) | An update player track that can be sent in API requests.  |
-
----
-
 ### Queue Object
 
-| Field  | Type   | Description                             |
-|--------|--------|-----------------------------------------|
-| type   | string | the type of queue.                      |
-| tracks | array  | An array of track objects in the queue. |
+| Field                | Type                                                               | Description                             |
+|----------------------|--------------------------------------------------------------------|-----------------------------------------|
+| [mode](#queue-modes) | string                                                             | The mode of the queue.                  |
+| tracks               | array of [Track](https://lavalink.dev/api/rest.html#track) objects | An array of track objects in the queue. |
 
 <details>
 <summary>Example Payload</summary>
@@ -74,9 +67,33 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
   "tracks": [
     {
       "encoded": "...",
-      "info": "{}",
-      "pluginInfo": "{}",
-      "userData": "{}"
+      "info": {},
+      "pluginInfo": {},
+      "userData": {}
+    }
+  ]
+}
+```
+
+</details>
+
+---
+
+### Common Types
+
+| Type                                              | Description                                                                                   |
+|---------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [track](https://lavalink.dev/api/rest.html#track) | A track object returned in API responses.                                                     |
+| `update_queue_payload`                            | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects. |
+
+<details>
+<summary>Example Payload</summary>
+
+```json5
+{
+  [
+    {
+      "encoded": "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRd"
     }
   ]
 }
@@ -92,39 +109,22 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ### Get Queue
 
-Returns a [queue object](#queue-object).
-
 ```
 GET /sessions/{sessionId}/players/{guildId}/queue
 ```
 
----
+Response: [Queue Object](#queue-object)
 
-### Update Queue
+---
 
 > [!NOTE]
 > All fields are optional and only the fields you provide will be updated.
 
-Modifies the queue. Overrides the existing tracks if the tracks key is present.
+Modifies the queue. Overrides the existing tracks if the tracks key is present. Request body is a [queue object](#queue-object).
 
 ```
 PATCH /sessions/{sessionId}/players/{playerId}/queue
 ```
-
-<details>
-<summary>Example Payload</summary>
-
-```json5
-{
-  "type": "normal",
-  "tracks": [
-    {
-      "encoded":"QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRd"
-    }
-  ]
-}
-```
-</details>
 
 ---
 
@@ -156,20 +156,6 @@ Adds tracks to the queue. Response is the next queue track.
 POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-<details>
-<summary>Example Payload</summary>
-
-```json5
-{
-  [
-    {
-      "encoded": "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRd"
-    }
-  ]
-}
-```
-</details>
-
 ---
 
 ### Update Queue Tracks
@@ -179,20 +165,6 @@ Overrides the existing tracks in the queue. Response is the next queue track.
 ```
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
-
-<details>
-<summary>Example Payload</summary>
-
-```json5
-{
-  [
-    {
-      "encoded": "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRd"
-    }
-  ]
-}
-```
-</details>
 
 ---
 
