@@ -37,6 +37,8 @@ lavalink:
 
 Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the short commit hash as the version.
 
+---
+
 ### Queue Types
 
 | Type            | Description                                        |
