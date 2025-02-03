@@ -39,11 +39,11 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 
 ### Queue Types
 
-| Type         | Description                                            |
-|--------------|--------------------------------------------------------|
-| normal       | Tracks will be played in the order they are added.     |
-| repeat_track | A singular track will be repeatedly played.            |
-| repeat_queue | The queue will repeat once it has ended.               |
+| Type            | Description                                        |
+|-----------------|----------------------------------------------------|
+| `normal`        | Tracks will be played in the order they are added. |
+| `repeat_track`  | A singular track will be repeatedly played.        |
+| `repeat_queue ` | The queue will repeat once it has ended.           |
 
 ---
 
