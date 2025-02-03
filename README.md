@@ -43,7 +43,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 |-----------------|----------------------------------------------------|
 | `normal`        | Tracks will be played in the order they are added. |
 | `repeat_track`  | A singular track will be repeatedly played.        |
-| `repeat_queue ` | The queue will repeat once it has ended.           |
+| `repeat_queue`  | The queue will repeat once it has ended.           |
 
 ---
 
@@ -52,7 +52,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 | Type                                                                          | Description                                               |
 |-------------------------------------------------------------------------------|-----------------------------------------------------------|
 | [track](https://lavalink.dev/api/rest.html#track)                             | A track object returned in API responses.                 |
-| [update_player_track](https://lavalink.dev/api/rest.html#update-player-track) | An update player tracks that can be sent in API requests. | 
+| [update_player_track](https://lavalink.dev/api/rest.html#update-player-track) | An update player track that can be sent in API requests.  | 
 
 ---
 
@@ -89,6 +89,8 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ### Get Queue
+
+Returns a [queue object](#queue-object).
 
 ```
 GET /sessions/{sessionId}/players/{guildId}/queue
