@@ -57,13 +57,13 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 | Field                | Type                                                               | Description                             |
 |----------------------|--------------------------------------------------------------------|-----------------------------------------|
-| [mode](#queue-modes) | string                                                             | The mode of the queue.                  |
+| mode                 | [string](#queue-modes)                                             | The mode of the queue.                  |
 | tracks               | array of [Track](https://lavalink.dev/api/rest.html#track) objects | An array of track objects in the queue. |
 
 <details>
 <summary>Example Payload</summary>
 
-```json5
+```json
 {
   "type": "normal",
   "tracks": [
@@ -86,12 +86,12 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 | Type                                              | Description                                                                                   |
 |---------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | [track](https://lavalink.dev/api/rest.html#track) | A track object returned in API responses.                                                     |
-| update_queue                                    | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects.   |
+| update_queue                                      | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects. |
 
 <details>
 <summary>Update Queue Payload</summary>
 
-```json5
+```json
 {
   [
     {
@@ -269,7 +269,7 @@ Fires when a queue has ended.
 <details>
 <summary>Example Payload</summary>
 
-```json5
+```json
 {
   "op": "event",
   "type": "QueueEndEvent",
