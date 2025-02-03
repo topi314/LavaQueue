@@ -46,7 +46,7 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 | Type            | Description                                        |
 |-----------------|----------------------------------------------------|
 | `normal`        | Tracks will be played in the order they are added. |
-| `repeat_track`  | A singular track will be repeatedly played.        |
+| `repeat_track`  | A single track will be repeatedly played.          |
 | `repeat_queue`  | The queue will repeat once it has ended.           |
 
 ---
@@ -84,10 +84,10 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 | Type                                              | Description                                                                                   |
 |---------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | [track](https://lavalink.dev/api/rest.html#track) | A track object returned in API responses.                                                     |
-| `update_queue_payload`                            | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects. |
+| `update_queue`                                    | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects. |
 
 <details>
-<summary>Example Payload</summary>
+<summary>Update Queue Payload</summary>
 
 ```json5
 {
@@ -109,7 +109,7 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ### Get Queue
 
-```
+```http
 GET /sessions/{sessionId}/players/{guildId}/queue
 ```
 
@@ -122,9 +122,11 @@ Response: [Queue Object](#queue-object)
 
 Modifies the queue. Overrides the existing tracks if the tracks key is present. Request body is a [queue object](#queue-object).
 
-```
+```http
 PATCH /sessions/{sessionId}/players/{playerId}/queue
 ```
+
+Response: 
 
 ---
 
@@ -132,9 +134,11 @@ PATCH /sessions/{sessionId}/players/{playerId}/queue
 
 Gets the next track in the queue. Plays the next track if the player isn't playing. Response is a track object.
 
-```
+```http
 POST /sessions/{sessionId}/players/{guildId}/queue/next
 ```
+
+Response: 
 
 ---
 
@@ -142,9 +146,11 @@ POST /sessions/{sessionId}/players/{guildId}/queue/next
 
 Gets the previously playing track. Plays the previous track if the player isn't playing. Response is a track object.
 
-```
+```http
 POST /sessions/{sessionId}/players/{guildId}/queue/previous
 ```
+
+Response: 
 
 ---
 
@@ -152,9 +158,11 @@ POST /sessions/{sessionId}/players/{guildId}/queue/previous
 
 Adds tracks to the queue. Response is the next queue track.
 
-```
+```http
 POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
+
+Response: 
 
 ---
 
@@ -162,17 +170,21 @@ POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 
 Overrides the existing tracks in the queue. Response is the next queue track.
 
-```
+```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
+
+Response: 
 
 ---
 
 ### Delete Queue
 
-```
+```http
 DELETE /sessions/{sessionId}/players/{guildId}/tracks/queue
 ```
+
+Response: 
 
 ---
 
@@ -180,9 +192,11 @@ DELETE /sessions/{sessionId}/players/{guildId}/tracks/queue
 
 Gets a track from the queue at the specified index. Response is a track object.
 
-```
+```http
 GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 ```
+
+Response: 
 
 ---
 
@@ -190,9 +204,11 @@ GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 
 Adds a track at the specified index. Reuqest body is an update player track.
 
-```
+```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 ```
+
+Response: 
 
 ---
 
@@ -200,9 +216,11 @@ PUT /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 
 Deletes a track from the queue. If amount is provided, the specified number of elements after the index will be removed.
 
-```
+```http
 DELETE /sessions/{sessionId}/players/{guildId}/queue/{index}?amount=0
 ```
+
+Response: 
 
 ---
 
@@ -210,9 +228,11 @@ DELETE /sessions/{sessionId}/players/{guildId}/queue/{index}?amount=0
 
 Move a track to a different position. This does *not* remove the track at the original index.
 
-```
+```http
 POST /sessions/{sessionId}/players/{guildId}/queue/{index}/move?position=0
 ```
+
+Response: 
 
 ---
 
@@ -220,9 +240,11 @@ POST /sessions/{sessionId}/players/{guildId}/queue/{index}/move?position=0
 
 Gets the history of this queue. Response is an array of track objects.
 
-```
+```http
 GET /sessions/{sessionId}/players/{guildId}/history
 ```
+
+Response: 
 
 ---
 
@@ -230,9 +252,11 @@ GET /sessions/{sessionId}/players/{guildId}/history
 
 Gets a track from the history at the specified index. Response is a track object.
 
-```
+```http
 GET /sessions/{sessionId}/players/{guildId}/history/{index}
 ```
+
+Response: 
 
 ---
 
