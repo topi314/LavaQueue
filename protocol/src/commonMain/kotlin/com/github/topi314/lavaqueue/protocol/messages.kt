@@ -6,9 +6,15 @@ import kotlinx.serialization.Serializable
 
 @SerialName("ready")
 @Serializable
-data class QueueEndEvent(
+@Suppress("DataClassPrivateConstructor")
+data class QueueEndEvent private constructor(
+    val op: Message.Op,
+    val type: String,
     val guildId: String
 ) {
-    val op: Message.Op = Message.Op.Event
-    val type: String = "QueueEndEvent"
+    constructor(guildId: String) : this(
+        Message.Op.Event,
+        "QueueEndEvent",
+        guildId,
+    )
 }
