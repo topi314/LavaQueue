@@ -35,12 +35,13 @@ class LavaQueuePlugin : PluginEventHandler() {
         queues[context.sessionId]?.remove(player.guildId)
     }
 
-    fun getQueue(socketContext: ISocketContext, guildId: Long): Queue {
-        val queue = queues[socketContext.sessionId] ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Session ${socketContext.sessionId} not found")
+    fun getQueue(context: ISocketContext, guildId: Long): Queue {
+        val queue = queues[context.sessionId] ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Session ${context.sessionId} not found")
 
-        return queue.getOrPut(guildId) {
-            Queue(socketContext, socketContext.getPlayer(guildId))
-        }
+        // this is a bit funny, since this calls onNewPlayer which creates the queue if it doesn't exist
+        context.getPlayer(guildId);
+
+        return queue[guildId] ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create queue for guild $guildId in session ${context.sessionId}")
     }
 
 }
