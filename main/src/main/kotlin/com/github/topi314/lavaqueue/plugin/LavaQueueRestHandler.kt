@@ -40,18 +40,20 @@ class LavaQueueRestHandler(
             queue.mode = it
         }
 
-        var track: AudioTrack? = null
+        var nextTrack: AudioTrack? = null
         body.tracks.ifPresent {
             queue.tracks.set(it.toAudioTracks(playerManager))
-            track = queue.next()
+            if (!queue.player.isPlaying) {
+                nextTrack = queue.next()
+            }
         }
 
         body.userData.ifPresent {
             queue.userData = it
         }
 
-        track ?: throw ResponseStatusException(HttpStatus.NO_CONTENT, "")
-        return track!!.toTrack(playerManager, pluginInfoModifiers)
+        nextTrack ?: throw ResponseStatusException(HttpStatus.NO_CONTENT, "")
+        return nextTrack!!.toTrack(playerManager, pluginInfoModifiers)
     }
 
     @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/next")
@@ -70,6 +72,9 @@ class LavaQueueRestHandler(
     fun postQueueTracks(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestBody tracks: QueueTracks): Track {
         val queue = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId)
         queue.tracks.addAll(tracks.toAudioTracks(playerManager))
+        if (queue.player.isPlaying) {
+            throw ResponseStatusException(HttpStatus.NO_CONTENT, "")
+        }
         val track = queue.next() ?: throw ResponseStatusException(HttpStatus.NO_CONTENT, "")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
