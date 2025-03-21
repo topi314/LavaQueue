@@ -57,14 +57,14 @@ class LavaQueueRestHandler(
     }
 
     @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/next")
-    fun postQueueNext(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestParam count: Int): Track {
-        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).next(count) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No next track found")
+    fun postQueueNext(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestParam(required = false) count: Int?): Track {
+        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).next(count ?: 1) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No next track found")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
 
     @PostMapping("/v4/sessions/{sessionId}/players/{guildId}/queue/previous")
-    fun postQueuePrevious(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestParam count: Int): Track {
-        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).previous(count) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No previous track found")
+    fun postQueuePrevious(@PathVariable sessionId: String, @PathVariable guildId: Long, @RequestParam(required = false) count: Int?): Track {
+        val track = lavaQueuePlugin.getQueue(socketContext(socketServer, sessionId), guildId).previous(count ?: 1) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "No previous track found")
         return track.toTrack(playerManager, pluginInfoModifiers)
     }
 
