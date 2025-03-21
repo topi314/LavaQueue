@@ -24,15 +24,15 @@ class Queue(
     val history = TrackQueue()
     var userData = JsonObject(emptyMap())
 
-    fun next(): AudioTrack? {
-        val track = tracks.removeNext() ?: return null
+    fun next(count: Int = 1): AudioTrack? {
+        val track = tracks.removeNext(count) ?: return null
         player.play(track)
         return track
 
     }
 
-    fun previous(): AudioTrack? {
-        val track = history.removeLast() ?: return null
+    fun previous(count: Int = 1): AudioTrack? {
+        val track = history.removeLast(count) ?: return null
         player.play(track)
         return track
     }

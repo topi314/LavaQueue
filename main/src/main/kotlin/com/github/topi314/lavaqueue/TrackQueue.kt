@@ -70,16 +70,30 @@ class TrackQueue(
         return queue.firstOrNull()
     }
 
-    fun removeNext(): AudioTrack? {
-        return queue.removeFirstOrNull()
+    fun removeNext(count: Int = 1): AudioTrack? {
+        if (queue.isEmpty()) {
+            return null
+        }
+        return if (count >= queue.size) {
+            queue.removeFirstOrNull()
+        } else {
+            queue.subList(0, count).also { queue = queue.drop(count).toMutableList() }.last()
+        }
     }
 
     fun last(): AudioTrack? {
         return queue.lastOrNull()
     }
 
-    fun removeLast(): AudioTrack? {
-        return queue.removeLastOrNull()
+    fun removeLast(count: Int = 1): AudioTrack? {
+        if (queue.isEmpty()) {
+            return null
+        }
+        return if (count >= queue.size) {
+            queue.removeLastOrNull()
+        } else {
+            queue.subList(queue.size - count, queue.size).also { queue = queue.dropLast(count).toMutableList() }.first()
+        }
     }
 
 }
