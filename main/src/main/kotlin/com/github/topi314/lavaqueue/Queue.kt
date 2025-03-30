@@ -12,7 +12,7 @@ import kotlinx.serialization.json.JsonObject
 
 class Queue(
     private val context: ISocketContext,
-    private val player: IPlayer
+    val player: IPlayer
 ) : AudioEventAdapter() {
 
     init {
@@ -24,26 +24,17 @@ class Queue(
     val history = TrackQueue()
     var userData = JsonObject(emptyMap())
 
-    fun next(): AudioTrack? {
-        if (player.isPlaying) {
-            return null
-        }
+    fun next(count: Int = 1): AudioTrack? {
+        val track = tracks.removeNext(count) ?: return null
+        player.play(track)
+        return track
 
-        if (tracks.isNotEmpty()) {
-            val track = tracks.removeNext()
-            player.play(track!!)
-            return track
-        }
-        return null
     }
 
-    fun previous(): AudioTrack? {
-        if (history.isNotEmpty()) {
-            val track = history.removeLast()
-            player.play(track!!)
-            return track
-        }
-        return null
+    fun previous(count: Int = 1): AudioTrack? {
+        val track = history.removeLast(count) ?: return null
+        player.play(track)
+        return track
     }
 
     override fun onTrackEnd(unused: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
