@@ -159,9 +159,9 @@ POST /sessions/{sessionId}/players/{guildId}/queue/next
 
 Query Params:
 
-| Field  | Type    | Description                                       |
-|--------|---------|---------------------------------------------------|
-| count? | integer | How many tracks to skip ahead to. Defaults to one |
+| Field  | Type    | Description                                        |
+|--------|---------|----------------------------------------------------|
+| count? | integer | How many tracks to skip ahead to. Defaults to one. |
 
 Response:
 
@@ -185,7 +185,7 @@ Query Params:
 
 | Field  | Type    | Description                                       |
 |--------|---------|---------------------------------------------------|
-| count? | integer | How many tracks to skip back to. Defaults to one  |
+| count? | integer | How many tracks to skip back to. Defaults to one. |
 
 Response:
 
@@ -293,7 +293,7 @@ Query Params:
 
 | Field   | Type    | Description                               |
 |---------|---------|-------------------------------------------|
-| amount? | integer | How many tracks to remove after the index |
+| amount? | integer | How many tracks to remove after the index.|
 
 Response:
 
@@ -314,7 +314,7 @@ Query Params:
 
 | Field    | Type    | Description                |
 |----------|---------|----------------------------|
-| position | integer | The new index of the track |
+| position | integer | The new index of the track.|
 
 Response:
 
