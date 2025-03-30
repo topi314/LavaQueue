@@ -115,7 +115,16 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 GET /sessions/{sessionId}/players/{guildId}/queue
 ```
 
-**Response:** [Queue Object](#queue-object)
+Response:
+
+200 OK:
+- [Queue Object](#queue-object)
+
+404 Not Found:
+- If the provided session is invalid.
+
+500 Internal Server Error:
+- If the provided guild ID is invalid.
 
 ---
 
@@ -130,31 +139,61 @@ Modifies the queue. Overrides the existing tracks if the tracks key is present. 
 PATCH /sessions/{sessionId}/players/{playerId}/queue
 ```
 
-**Response:** [Track Object](https://lavalink.dev/api/rest.html#track) or `204 NO CONTENT`
+Response:
+
+200 OK:
+-  The next [Track Object](https://lavalink.dev/api/rest.html#track) in the queue.
+  
+204 No Content:
+- The queue was successfully updated, but there isn't a next track to return.
 
 ---
 
 ### Next Queue Track
 
-Gets the next track in the queue. Plays the next track if the player isn't playing.
+Play the next track in the queue.
 
 ```http
 POST /sessions/{sessionId}/players/{guildId}/queue/next
 ```
 
-**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
+Query Params:
+
+| Field  | Type    | Description                                       |
+|--------|---------|---------------------------------------------------|
+| count? | integer | How many tracks to skip ahead to. Defaults to one |
+
+Response:
+
+200 OK:
+- The [Track](https://lavalink.dev/api/rest.html#track) that was skipped to.
+
+404 Not Found:
+- If the track to skip to doesn't exist in the queue.
 
 ---
 
 ### Previous Queue Track
 
-Gets the previously playing track. Plays the previous track if the player isn't playing.
+Play the previously playing track.
 
 ```http
 POST /sessions/{sessionId}/players/{guildId}/queue/previous
 ```
 
-**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
+Query Params:
+
+| Field  | Type    | Description                                       |
+|--------|---------|---------------------------------------------------|
+| count? | integer | How many tracks to skip back to. Defaults to one  |
+
+Response:
+
+200 OK:
+- The [Track](https://lavalink.dev/api/rest.html#track) that was skipped to.
+
+404 Not Found:
+- If the track to skip to doesn't exist in the queue.
 
 ---
 
@@ -166,7 +205,13 @@ Adds tracks to the queue. Request body is an [update queue](#common-types) paylo
 POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-**Response:** [Next Track](https://lavalink.dev/api/rest.html#track)
+Response:
+
+200 OK:
+- The next [Track](https://lavalink.dev/api/rest.html#track) in the queue.
+
+204 No Content:
+- The queue was successfully updated, but the player is either playing a track, or there are no tracks in the queue.
 
 ---
 
@@ -178,17 +223,28 @@ Overrides the existing tracks in the queue. Request body is an [update queue](#c
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
 ```
 
-**Response:** [Next Track](https://lavalink.dev/api/rest.html#track)
+Response:
+
+200 OK:
+- The next [Track](https://lavalink.dev/api/rest.html#track) in the queue.
+
+204 No Content:
+- The queue was successfully updated, but there are no tracks in the queue.
 
 ---
 
 ### Delete Queue
 
+Clear all the tracks in the queue.
+
 ```http
-DELETE /sessions/{sessionId}/players/{guildId}/tracks/queue
+DELETE /sessions/{sessionId}/players/{guildId}/queue
 ```
 
-**Response:** `204 NO CONTENT`
+Response:
+
+204 No Content:
+- The queue was successfully cleared.
 
 ---
 
@@ -200,19 +256,28 @@ Gets a track from the queue at the specified index.
 GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 ```
 
-**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
+Response:
+
+200 OK:
+- The [Track](https://lavalink.dev/api/rest.html#track) at the specifed index.
+
+404 Not Found:
+- A [Track](https://lavalink.dev/api/rest.html#track) couldn't be found at the specified index.
 
 ---
 
 ### Add Queue Track
 
-Adds a track at the specified index. Reuqest body is an [update player track](https://lavalink.dev/api/rest#update-player-track).
+Adds a track at the specified index. Request body is an [update player track](https://lavalink.dev/api/rest#update-player-track).
 
 ```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 ```
 
-**Response:** `204 NO CONTENT`
+Response:
+
+200 OK:
+- The track was successfully added at the specified index.
 
 ---
 
@@ -221,22 +286,43 @@ PUT /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 Remove a track from the queue. If amount is provided, the specified number of elements after the index will be removed.
 
 ```http
-DELETE /sessions/{sessionId}/players/{guildId}/queue/{index}?amount=0
+DELETE /sessions/{sessionId}/players/{guildId}/queue/{index}
 ```
 
-**Response:** `204 NO CONTENT`
+Query Params:
+
+| Field   | Type    | Description                               |
+|---------|---------|-------------------------------------------|
+| amount? | integer | How many tracks to remove after the index |
+
+Response:
+
+200 OK:
+- The tracks were successfully removed.
 
 ---
 
 ### Move Queue Track
 
-Move a track to a different position. This does *not* remove the track at the original index.
+Move a track to a different position. This does **not** remove the track at the original index.
 
 ```http
-POST /sessions/{sessionId}/players/{guildId}/queue/{index}/move?position=0
+POST /sessions/{sessionId}/players/{guildId}/queue/{index}/move
 ```
 
-**Response:** `204 NO CONTENT`
+Query Params:
+
+| Field    | Type    | Description                |
+|----------|---------|----------------------------|
+| position | integer | The new index of the track |
+
+Response:
+
+200 OK:
+- The track was successfully moved.
+
+404 Not Found:
+- A track could not be found at the original index.
 
 ---
 
@@ -248,7 +334,10 @@ Gets the history of this queue.
 GET /sessions/{sessionId}/players/{guildId}/history
 ```
 
-**Response:** Array of [track](https://lavalink.dev/api/rest.html#track) objects.
+Response:
+
+200 OK:
+  Array of [track](https://lavalink.dev/api/rest.html#track) objects from the queue's history.
 
 ---
 
@@ -260,7 +349,10 @@ Gets a track from the history at the specified index.
 GET /sessions/{sessionId}/players/{guildId}/history/{index}
 ```
 
-**Response:** [Track Object](https://lavalink.dev/api/rest.html#track)
+Response:
+
+200 OK:
+- The [Track](https://lavalink.dev/api/rest.html#track) at the specified index.
 
 ---
 
