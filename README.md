@@ -142,7 +142,7 @@ PATCH /sessions/{sessionId}/players/{playerId}/queue
 Response:
 
 200 OK:
--  The next [Track Object](https://lavalink.dev/api/rest.html#track) in the queue.
+-  The next [Track](https://lavalink.dev/api/rest.html#track) in the queue.
   
 204 No Content:
 - The queue was successfully updated, but there isn't a next track to return.
