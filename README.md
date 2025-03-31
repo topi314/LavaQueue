@@ -11,7 +11,7 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
 * [API](#api)
     * [Common Types](#common-types)
     * [Endpoints](#endpoints)
-      * [Queue](#queue)
+      * [Queue](#endpoints)
         * [Get Queue](#get-queue)
         * [Modify Queue](#modify-queue)
       * [Queue Tracks](#queue-tracks)
@@ -87,8 +87,6 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 ---
 
 ## Endpoints
-
-## Queue
 
 ### Get Queue
 
