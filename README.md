@@ -60,7 +60,7 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 | Field                | Type                                                               | Description                             |
 |----------------------|--------------------------------------------------------------------|-----------------------------------------|
 | mode                 | [string](#queue-modes)                                             | The mode of the queue.                  |
-| tracks               | array of [Track](https://lavalink.dev/api/rest.html#track) objects | An array of track objects in the queue. |
+| tracks               | array of [track](https://lavalink.dev/api/rest.html#track) objects | An array of track objects in the queue. |
 
 <details>
 <summary>Example Payload</summary>
@@ -133,7 +133,7 @@ PATCH /sessions/{sessionId}/players/{playerId}/queue
 Response:
 
 200 OK:
--  The next [Track](https://lavalink.dev/api/rest.html#track) in the queue.
+-  The next [track](https://lavalink.dev/api/rest.html#track) in the queue.
   
 204 No Content:
 - The queue was successfully updated, but there isn't a next track to return.
@@ -157,7 +157,7 @@ Query Params:
 Response:
 
 200 OK:
-- The [Track](https://lavalink.dev/api/rest.html#track) that was skipped to.
+- The [track](https://lavalink.dev/api/rest.html#track) that was skipped to.
 
 404 Not Found:
 - If the track to skip to doesn't exist in the queue.
@@ -181,7 +181,7 @@ Query Params:
 Response:
 
 200 OK:
-- The [Track](https://lavalink.dev/api/rest.html#track) that was skipped to.
+- The [track](https://lavalink.dev/api/rest.html#track) that was skipped to.
 
 404 Not Found:
 - If the track to skip to doesn't exist in the queue.
@@ -199,7 +199,7 @@ POST /sessions/{sessionId}/players/{guildId}/queue/tracks
 Response:
 
 200 OK:
-- The next [Track](https://lavalink.dev/api/rest.html#track) in the queue.
+- The next [track](https://lavalink.dev/api/rest.html#track) in the queue.
 
 204 No Content:
 - The queue was successfully updated, but the player is either playing a track, or there are no tracks in the queue.
@@ -217,7 +217,7 @@ PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
 Response:
 
 200 OK:
-- The next [Track](https://lavalink.dev/api/rest.html#track) in the queue.
+- The next [track](https://lavalink.dev/api/rest.html#track) in the queue.
 
 204 No Content:
 - The queue was successfully updated, but there are no tracks in the queue.
@@ -250,10 +250,10 @@ GET /sessions/{sessionId}/players/{guildId}/queue/tracks/{index}
 Response:
 
 200 OK:
-- The [Track](https://lavalink.dev/api/rest.html#track) at the specifed index.
+- The [track](https://lavalink.dev/api/rest.html#track) at the specifed index.
 
 404 Not Found:
-- A [Track](https://lavalink.dev/api/rest.html#track) couldn't be found at the specified index.
+- A [track](https://lavalink.dev/api/rest.html#track) couldn't be found at the specified index.
 
 ---
 
@@ -343,7 +343,7 @@ GET /sessions/{sessionId}/players/{guildId}/history/{index}
 Response:
 
 200 OK:
-- The [Track](https://lavalink.dev/api/rest.html#track) at the specified index.
+- The [track](https://lavalink.dev/api/rest.html#track) at the specified index.
 
 ---
 
