@@ -11,10 +11,10 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
 * [API](#api)
     * [Common Types](#common-types)
     * [Endpoints](#endpoints)
-      * [Queue]()
+      * [Queue](#queue)
         * [Get Queue](#get-queue)
         * [Modify Queue](#modify-queue)
-      * [Queue Tracks]()
+      * [Queue Tracks](#queue-tracks)
         * [Next Queue Track](#next-queue-track)
         * [Previous Queue Track](#previous-queue-track)
         * [Add Queue Track](#add-queue-tracks)
@@ -23,7 +23,7 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
         * [Add Queue Track](#add-queue-track)
         * [Delete Queue Track(s)](#delete-queue-track(s))
         * [Move Queue Track](#move-queue-track)
-      * [Queue History]()
+      * [Queue History](#queue-history)
         * [Get Queue History](#get-queue-history)
         * [Get Queue History Track](#get-queue-history-track)
 * [Events](#events)
@@ -142,8 +142,6 @@ Response:
   
 204 No Content:
 - The queue was successfully updated, but there isn't a next track to return.
-
----
 
 ## Queue Tracks
 
@@ -321,8 +319,6 @@ Response:
 
 404 Not Found:
 - A track could not be found at the original index.
-
----
 
 ## Queue History
 
