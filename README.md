@@ -11,18 +11,21 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
 * [API](#api)
     * [Common Types](#common-types)
     * [Endpoints](#endpoints)
-      * [Get Queue](#get-queue)
-      * [Modify Queue](#modify-queue)
-      * [Next Queue Track](#next-queue-track)
-      * [Previous Queue Track](#previous-queue-track)
-      * [Add Queue Track](#add-queue-tracks)
-      * [Update Queue Track](#update-queue-tracks)
-      * [Get Queue Track](#get-queue-track)
-      * [Add Queue Track](#add-queue-track)
-      * [Delete Queue Track(s)](#delete-queue-track(s))
-      * [Move Queue Track](#move-queue-track)
-      * [Get Queue History](#get-queue-history)
-      * [Get Queue History Track](#get-queue-history-track)
+      * [Queue]()
+        * [Get Queue](#get-queue)
+        * [Modify Queue](#modify-queue)
+      * [Queue Tracks]()
+        * [Next Queue Track](#next-queue-track)
+        * [Previous Queue Track](#previous-queue-track)
+        * [Add Queue Track](#add-queue-tracks)
+        * [Update Queue Track](#update-queue-tracks)
+        * [Get Queue Track](#get-queue-track)
+        * [Add Queue Track](#add-queue-track)
+        * [Delete Queue Track(s)](#delete-queue-track(s))
+        * [Move Queue Track](#move-queue-track)
+      * [Queue History]()
+        * [Get Queue History](#get-queue-history)
+        * [Get Queue History Track](#get-queue-history-track)
 * [Events](#events)
   * [QueueEndEvent](#queueendevent)
 
@@ -84,6 +87,27 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 ---
 
 ## Endpoints
+
+### Summary
+
+
+* [Queue]()
+  * [Get Queue](#get-queue)
+  * [Modify Queue](#modify-queue)
+* [Queue Tracks]()
+  * [Next Queue Track](#next-queue-track)
+  * [Previous Queue Track](#previous-queue-track)
+  * [Add Queue Track](#add-queue-tracks)
+  * [Update Queue Track](#update-queue-tracks)
+  * [Get Queue Track](#get-queue-track)
+  * [Add Queue Track](#add-queue-track)
+  * [Delete Queue Track(s)](#delete-queue-track(s))
+  * [Move Queue Track](#move-queue-track)
+* [Queue History]()
+  * [Get Queue History](#get-queue-history)
+  * [Get Queue History Track](#get-queue-history-track)
+* [Events](#events)
+  * [QueueEndEvent](#queueendevent)
 
 ### Get Queue
 
