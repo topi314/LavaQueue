@@ -88,26 +88,7 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ## Endpoints
 
-### Summary
-
-
-* [Queue]()
-  * [Get Queue](#get-queue)
-  * [Modify Queue](#modify-queue)
-* [Queue Tracks]()
-  * [Next Queue Track](#next-queue-track)
-  * [Previous Queue Track](#previous-queue-track)
-  * [Add Queue Track](#add-queue-tracks)
-  * [Update Queue Track](#update-queue-tracks)
-  * [Get Queue Track](#get-queue-track)
-  * [Add Queue Track](#add-queue-track)
-  * [Delete Queue Track(s)](#delete-queue-track(s))
-  * [Move Queue Track](#move-queue-track)
-* [Queue History]()
-  * [Get Queue History](#get-queue-history)
-  * [Get Queue History Track](#get-queue-history-track)
-* [Events](#events)
-  * [QueueEndEvent](#queueendevent)
+## Queue
 
 ### Get Queue
 
@@ -163,6 +144,8 @@ Response:
 - The queue was successfully updated, but there isn't a next track to return.
 
 ---
+
+## Queue Tracks
 
 ### Next Queue Track
 
@@ -340,6 +323,8 @@ Response:
 - A track could not be found at the original index.
 
 ---
+
+## Queue History
 
 ### Get Queue History
 
