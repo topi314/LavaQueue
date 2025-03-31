@@ -350,8 +350,6 @@ Response:
 200 OK:
 - The [track](https://lavalink.dev/api/rest.html#track) at the specified index.
 
----
-
 ## Events
 
 ### QueueEndEvent
