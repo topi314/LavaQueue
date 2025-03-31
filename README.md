@@ -83,30 +83,6 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ---
 
-### Common Types
-
-| Type                                              | Description                                                                                   |
-|---------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| [track](https://lavalink.dev/api/rest.html#track) | A track object returned in API responses.                                                     |
-| update_queue                                      | An array of [update player track](https://lavalink.dev/api/rest#update-player-track) objects. |
-
-<details>
-<summary>Update Queue Payload</summary>
-
-```json
-{
-  [
-    {
-      "encoded": "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRd"
-    }
-  ]
-}
-```
-
-</details>
-
----
-
 ## Endpoints
 
 ### Get Queue
@@ -134,6 +110,21 @@ Response:
 > All fields are optional and only the fields you provide will be updated.
 
 Modifies the queue. Overrides the existing tracks if the tracks key is present. Request body is a [queue object](#queue-object).
+
+<details>
+<summary>Example Payload</summary>
+
+```json
+{
+  "mode": "repeat_track",
+  "tracks": [
+    {
+      "encoded": "QAAAjQIAJVJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAADlJpY2tBc3RsZXlWRVZPAAAAAAADPCAAC2RRd"
+    }
+  ]
+}
+```
+</details>
 
 ```http
 PATCH /sessions/{sessionId}/players/{playerId}/queue
@@ -217,7 +208,7 @@ Response:
 
 ### Update Queue Tracks
 
-Overrides the existing tracks in the queue. Request body is an [update queue](#common-types) payload.
+Overrides the existing tracks in the queue. Request body is an array [update player tracks](https://lavalink.dev/api/rest#update-player-track).
 
 ```http
 PUT /sessions/{sessionId}/players/{guildId}/queue/tracks
