@@ -1,7 +1,7 @@
 # LavaQueue
 
 > [!IMPORTANT]
-> This plugin *requires* Lavalink `v4.0.5` or greater
+> This plugin *requires* Lavalink `v4.0.6` or greater
 
 A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) with a REST API.
 
@@ -20,8 +20,8 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
         * [Add Queue Track](#add-queue-tracks)
         * [Update Queue Track](#update-queue-tracks)
         * [Get Queue Track](#get-queue-track)
-        * [Add Queue Track](#add-queue-track)
-        * [Delete Queue Track(s)](#delete-queue-track(s))
+        * [Set Queue Track](#set-queue-track)
+        * [Delete Queue Tracks](#delete-queue-tracks)
         * [Move Queue Track](#move-queue-track)
       * [Queue History](#queue-history)
         * [Get Queue History](#get-queue-history)
@@ -47,8 +47,11 @@ Snapshot builds are available at https://maven.lavalink.dev/#/snapshots with the
 ## API
 
 The plugin provides a REST API to add, remove, and update tracks in the queue.
+Fields marked with `?` are optional and types marked with `?` are nullable.
 
-### Queue Modes
+### Common Types
+
+#### Queue Modes
 
 | Type            | Description                                        |
 |-----------------|----------------------------------------------------|
@@ -58,7 +61,7 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 ---
 
-### Queue Object
+#### Queue Object
 
 | Field                | Type                                                               | Description                             |
 |----------------------|--------------------------------------------------------------------|-----------------------------------------|
@@ -84,11 +87,9 @@ The plugin provides a REST API to add, remove, and update tracks in the queue.
 
 </details>
 
----
+### Endpoints
 
-## Endpoints
-
-### Get Queue
+#### Get Queue
 
 ```http
 GET /sessions/{sessionId}/players/{guildId}/queue
@@ -99,15 +100,9 @@ Response:
 200 OK:
 - [Queue Object](#queue-object)
 
-404 Not Found:
-- If the provided session is invalid.
-
-500 Internal Server Error:
-- If the provided guild ID is invalid.
-
 ---
 
-### Modify Queue
+#### Modify Queue
 
 > [!NOTE]
 > All fields are optional and only the fields you provide will be updated.
@@ -141,9 +136,9 @@ Response:
 204 No Content:
 - The queue was successfully updated, but there isn't a next track to return.
 
-## Queue Tracks
+### Queue Tracks
 
-### Next Queue Track
+#### Next Queue Track
 
 Play the next track in the queue.
 
@@ -162,12 +157,9 @@ Response:
 200 OK:
 - The [track](https://lavalink.dev/api/rest.html#track) that was skipped to.
 
-404 Not Found:
-- If the track to skip to doesn't exist in the queue.
-
 ---
 
-### Previous Queue Track
+#### Previous Queue Track
 
 Play the previously playing track.
 
@@ -186,12 +178,9 @@ Response:
 200 OK:
 - The [track](https://lavalink.dev/api/rest.html#track) that was skipped to.
 
-404 Not Found:
-- If the track to skip to doesn't exist in the queue.
-
 ---
 
-### Add Queue Tracks
+#### Add Queue Tracks
 
 Adds tracks to the queue. Request body is an [update queue](#common-types) payload.
 
@@ -209,7 +198,7 @@ Response:
 
 ---
 
-### Update Queue Tracks
+#### Update Queue Tracks
 
 Overrides the existing tracks in the queue. Request body is an array [update player tracks](https://lavalink.dev/api/rest#update-player-track).
 
@@ -227,7 +216,7 @@ Response:
 
 ---
 
-### Delete Queue
+#### Delete Queue
 
 Clear all the tracks in the queue.
 
@@ -237,12 +226,12 @@ DELETE /sessions/{sessionId}/players/{guildId}/queue
 
 Response:
 
-204 No Content:
+200 OK:
 - The queue was successfully cleared.
 
 ---
 
-### Get Queue Track
+#### Get Queue Track
 
 Gets a track from the queue at the specified index.
 
@@ -255,12 +244,9 @@ Response:
 200 OK:
 - The [track](https://lavalink.dev/api/rest.html#track) at the specifed index.
 
-404 Not Found:
-- A [track](https://lavalink.dev/api/rest.html#track) couldn't be found at the specified index.
-
 ---
 
-### Add Queue Track
+#### Set Queue Track
 
 Adds a track at the specified index. Request body is an [update player track](https://lavalink.dev/api/rest#update-player-track).
 
@@ -275,7 +261,7 @@ Response:
 
 ---
 
-### Delete Queue Tracks
+#### Delete Queue Tracks
 
 Remove a track from the queue. If amount is provided, the specified number of elements after the index will be removed.
 
@@ -296,7 +282,7 @@ Response:
 
 ---
 
-### Move Queue Track
+#### Move Queue Track
 
 Move a track to a different position. This does **not** remove the track at the original index.
 
@@ -315,12 +301,9 @@ Response:
 200 OK:
 - The track was successfully moved.
 
-404 Not Found:
-- A track could not be found at the original index.
+### Queue History
 
-## Queue History
-
-### Get Queue History
+#### Get Queue History
 
 Gets the history of this queue.
 
@@ -335,7 +318,7 @@ Response:
 
 ---
 
-### Get Queue History Track
+#### Get Queue History Track
 
 Gets a track from the history at the specified index.
 
@@ -353,6 +336,13 @@ Response:
 ### QueueEndEvent
 
 Fires when a queue has ended.
+
+#### Payload Structure
+
+| Field                | Type                                                               | Description                                  |
+|----------------------|--------------------------------------------------------------------|----------------------------------------------|
+| type                 | String                                                             | The type of event.                           |
+| guildId              | String                                                             | The ID of the guild the queue has ended for. |
 
 <details>
 <summary>Example Payload</summary>
