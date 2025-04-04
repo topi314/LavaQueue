@@ -138,9 +138,9 @@ Response:
 204 No Content:
 - The queue was successfully updated, but there isn't a next track to return.
 
-### Queue Tracks
-
 ---
+
+### Queue Tracks
 
 #### Next Queue Track
 
