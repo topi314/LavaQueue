@@ -140,6 +140,8 @@ Response:
 
 ### Queue Tracks
 
+---
+
 #### Next Queue Track
 
 Play the next track in the queue.
@@ -302,6 +304,8 @@ Response:
 
 200 OK:
 - The track was successfully moved.
+
+---
 
 ### Queue History
 
