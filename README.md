@@ -87,6 +87,8 @@ Fields marked with `?` are optional and types marked with `?` are nullable.
 
 </details>
 
+---
+
 ### Endpoints
 
 #### Get Queue
