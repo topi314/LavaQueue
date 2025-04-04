@@ -26,8 +26,8 @@ A simple queue plugin for [Lavalink](https://github.com/lavalink-devs/Lavalink) 
       * [Queue History](#queue-history)
         * [Get Queue History](#get-queue-history)
         * [Get Queue History Track](#get-queue-history-track)
-* [Events](#events)
-  * [QueueEndEvent](#queueendevent)
+      * [Events](#events)
+        * [QueueEndEvent](#queueendevent)
 
 ## Installation
 
@@ -333,13 +333,13 @@ Response:
 200 OK:
 - The [track](https://lavalink.dev/api/rest.html#track) at the specified index.
 
-## Events
+### Events
 
-### QueueEndEvent
+#### QueueEndEvent
 
 Fires when a queue has ended.
 
-#### Payload Structure
+##### Payload Structure
 
 | Field                | Type                                                               | Description                                  |
 |----------------------|--------------------------------------------------------------------|----------------------------------------------|
