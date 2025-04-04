@@ -275,7 +275,7 @@ Response:
 
 ---
 
-### Delete Queue Track(s)
+### Delete Queue Tracks
 
 Remove a track from the queue. If amount is provided, the specified number of elements after the index will be removed.
 
@@ -331,7 +331,7 @@ GET /sessions/{sessionId}/players/{guildId}/history
 Response:
 
 200 OK:
-  Array of [track](https://lavalink.dev/api/rest.html#track) objects from the queue's history.
+  Array of [track](https://lavalink.dev/api/rest.html#track) objects
 
 ---
 
