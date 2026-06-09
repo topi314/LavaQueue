@@ -74,10 +74,11 @@ class TrackQueue(
         if (queue.isEmpty()) {
             return null
         }
-        return if (count > queue.size) {
+        else if (count > queue.size) {
             queue.clear()
+            return null
         } else {
-            queue.subList(0, count).also { queue = queue.drop(count).toMutableList() }.last()
+            return queue.subList(0, count).also { queue = queue.drop(count).toMutableList() }.last()
         }
     }
 
@@ -89,10 +90,11 @@ class TrackQueue(
         if (queue.isEmpty()) {
             return null
         }
-        return if (count > queue.size) {
+        else if (count > queue.size) {
             queue.clear()
+            return null
         } else {
-            queue.subList(queue.size - count, queue.size).also { queue = queue.dropLast(count).toMutableList() }.first()
+            return queue.subList(queue.size - count, queue.size).also { queue = queue.dropLast(count).toMutableList() }.first()
         }
     }
 
